@@ -59,7 +59,6 @@ public class UserController {
 
     /**
      * 注册
-     *
      * @param user springMVC数据绑定
      * @return
      */
@@ -156,7 +155,7 @@ public class UserController {
     }
 
     /**
-     * 更新用户信息
+     * 登陆状态更新用户信息
      * @param session   会话
      * @param user  封装用户信息
      * @return

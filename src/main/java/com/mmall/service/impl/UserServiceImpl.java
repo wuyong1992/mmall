@@ -83,7 +83,8 @@ public class UserServiceImpl implements IUserService {
 
     //校验注册参数
     public ServerResponse<String> checkValid(String str, String type) {
-        if (StringUtils.isBlank(type)) {
+
+        if (StringUtils.isNotBlank(type)) {
             //开始校验
             if (Const.USERNAME.equals(type)) {
                 int resultCount = userMapper.checkUsername(str);
@@ -114,7 +115,7 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("用户不存在");
         }
         String question = userMapper.selectQuestionByUsername(username);
-        if (StringUtils.isBlank(question)) {
+        if (StringUtils.isNotBlank(question)) {
             return ServerResponse.createBySuccess(question);
         }
         return ServerResponse.createByErrorMessage("找回密码的问题是空的");

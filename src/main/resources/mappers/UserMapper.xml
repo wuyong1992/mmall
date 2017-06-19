@@ -162,12 +162,12 @@
 
     <select id="checkUsername" resultType="java.lang.Integer" parameterType="string">
       SELECT COUNT(1) FROM mmall_user
-      WHEN username = #{username}
+      WHERE username = #{username}
     </select>
 
     <select id="checkEmail" resultType="java.lang.Integer" parameterType="string">
       SELECT COUNT(1) FROM mmall_user
-      WHEN  email= #{email}
+      WHERE  email= #{email}
     </select>
 
 
@@ -196,13 +196,13 @@
     <select id="checkPassword" resultType="java.lang.Integer" parameterType="map">
         SELECT count(1)
         FROM mmall_user
-        WHERE password = ${password}
+        WHERE password = #{password}
         AND id = #{userId}
     </select>
 
     <select id="checkEmailByUserId" resultType="java.lang.Integer" parameterType="map">
         SELECT COUNT(1) FROM mmall_user
-        WHEN  email= #{email}
+        WHERE  email= #{email}
         AND id != #{userId}
     </select>
 
