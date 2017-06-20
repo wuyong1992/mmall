@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 /**
- *
+ * 读取配置文件
  */
 public class PropertiesUtil {
 
@@ -17,6 +17,7 @@ public class PropertiesUtil {
 
     private static Properties props;
 
+    //静态代码块 》 普通代码块 》 构造代码块
     static {
         String fileName = "mmall.properties";
         props = new Properties();

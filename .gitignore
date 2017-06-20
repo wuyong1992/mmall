@@ -33,5 +33,3 @@ target/
 .DS_Store
 Thumbs.db
 
-#
-src/main/java/com/mmall/vo/
