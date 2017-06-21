@@ -1,8 +1,11 @@
 package com.mmall.service.impl;
 
+import com.google.common.collect.Lists;
 import com.mmall.service.IFileService;
+import com.mmall.util.FTPUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -13,6 +16,7 @@ import java.util.UUID;
  * 文件处理实现类
  * Created by Administrator on 2017/6/21.
  */
+@Service("iFileService")
 public class FileServiceImpl implements IFileService {
 
     private Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
@@ -42,10 +46,10 @@ public class FileServiceImpl implements IFileService {
         try {
             //生成文件
             file.transferTo(targetFile);
-            //TODO 将文件上传到ftp
-
-            //TODO 上传完毕，将本地的upload文件夹下的文件删除
-
+            //将文件上传到ftp
+            FTPUtil.uploadFile(Lists.newArrayList(targetFile));
+            //上传完毕，将本地的upload文件夹下的文件删除
+            targetFile.delete();
         } catch (IOException e) {
             logger.error("上传文件异常：",e);
             return null;
