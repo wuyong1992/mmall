@@ -10,8 +10,11 @@ import com.mmall.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -73,6 +76,12 @@ public class ProductManageController {
         }
     }
 
+    /**
+     * 获取产品详情VO
+     * @param session   会话
+     * @param productId 产品ID
+     * @return
+     */
     @RequestMapping(value = "detail.do")
     @ResponseBody
     public ServerResponse getDetail(HttpSession session, Integer productId){
@@ -83,10 +92,69 @@ public class ProductManageController {
         //判断权限
         if (iUserService.checkAdminRole(user).isSuccess()){
             //业务逻辑
-            return null;
+            return iProductService.manageProductDetail(productId);
         }else {
             return ServerResponse.createByErrorMessage("无权限操作");
         }
+    }
+
+    /**
+     * 分页显示产品列表
+     * @param session   会话
+     * @param pageNum   页码，第几页，默认为第一页1
+     * @param pageSize  页面展示多少条，默认展示10条
+     * @return
+     */
+    @RequestMapping(value = "list.do")
+    @ResponseBody
+    public ServerResponse getList(HttpSession session,
+                                  @RequestParam(value = "pageNum" ,defaultValue = "1") Integer pageNum,
+                                  @RequestParam(value = "pageSize" ,defaultValue = "10")Integer pageSize){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "需要管理员身份登录");
+        }
+        //判断权限
+        if (iUserService.checkAdminRole(user).isSuccess()){
+            //业务逻辑
+            return iProductService.getProductList(pageNum,pageSize);
+        }else {
+            return ServerResponse.createByErrorMessage("无权限操作");
+        }
+    }
+
+    /**
+     * 产品搜索功能
+     * @param session   会话
+     * @param productName   名称
+     * @param productId     id
+     * @param pageNum       页码
+     * @param pageSize      内容容量
+     * @return
+     */
+    @RequestMapping(value = "search.do")
+    @ResponseBody
+    public ServerResponse productSearch(HttpSession session,String productName,Integer productId,
+                                  @RequestParam(value = "pageNum" ,defaultValue = "1") Integer pageNum,
+                                  @RequestParam(value = "pageSize" ,defaultValue = "10")Integer pageSize){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "需要管理员身份登录");
+        }
+        //判断权限
+        if (iUserService.checkAdminRole(user).isSuccess()){
+            //业务逻辑
+            return iProductService.searchProduct(productName,productId,pageNum,pageSize);
+        }else {
+            return ServerResponse.createByErrorMessage("无权限操作");
+        }
+    }
+
+    public ServerResponse upload(MultipartFile file, HttpServletRequest request) {
+        //跟webapp下的WEB-INF同级别目录
+        String path = request.getSession().getServletContext().getRealPath("upload");
+
+        return null;
     }
 
 }

@@ -27,7 +27,7 @@
     from mmall_product
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_product
     where id = #{id,jdbcType=INTEGER}
   </delete>
@@ -176,4 +176,30 @@
       update_time =  now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--因为使用了pageHelper,会有AOP自动加载SQL的执行，所以在自己写的SQL结尾，不能用“;”，否则后面的分页SQL无法执行-->
+  <select id="selectList" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_product
+    ORDER BY id ASC
+  </select>
+
+  <select id="selectByNameAndProductId" resultMap="BaseResultMap" parameterType="map">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM mmall_product
+      <where>
+          <if test="productName != null">
+              AND name LIKE #{productName}
+          </if>
+          <if test="productId != null">
+              AND id = #{productId}
+          </if>
+      </where>
+
+
+  </select>
+
+
 </mapper>

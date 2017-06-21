@@ -19,8 +19,8 @@ public class ProductDetailVo {
     private BigDecimal price;   //数据计算的时候防止丢失精度
     private Integer stock;
     private Integer status;
-    private Date createTime;
-    private Date updateTime;
+    private String createTime;
+    private String updateTime;
 
     private String imageHost;   //拼接后的图片地址
     private Integer parentCategoryId;   //父级分类id
@@ -105,19 +105,19 @@ public class ProductDetailVo {
         this.status = status;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
